@@ -5,8 +5,6 @@ import CustomIconButton from "../../components/CustomIconButton";
 import DigitIcon from "../../components/DigitIcon";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
-const GO_TIMER_LENGTH_MS = 3000
-
 export default function RoundOptions({ setRoundOptions, setClockStarted }) {
     const [timerLength, setTimerLength] = useState(0)
     const [numberOfRounds, setNumberOfRounds] = useState(0)
@@ -21,20 +19,6 @@ export default function RoundOptions({ setRoundOptions, setClockStarted }) {
             setGoPressed(false)
         }, 4700)
     }
-
-    // const formatTime = () => {
-    //     let hours = Math.floor(elapsedGoTime / (1000 * 60 * 60))
-    //     let minutes = Math.floor(elapsedGoTime / (1000 * 60) % 60)
-    //     let seconds = Math.floor(elapsedGoTime / (1000) % 60)
-    //     let milliseconds = Math.floor((elapsedGoTime % 1000) / 10)
-
-    //     hours = String(seconds).padStart(2, "0")
-    //     minutes = String(minutes).padStart(2, "0")
-    //     //seconds = String(seconds).padStart(2, "0")
-    //     milliseconds = String(milliseconds).padStart(2, "0")
-
-    //     return `${seconds}`
-    // }
 
     useEffect(() => {
         if (goPressed === true) {

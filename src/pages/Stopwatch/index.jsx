@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Backdrop, Button, Typography, useTheme } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { cardio } from 'ldrs';
 import HeartBeat from '../../components/HeartBeat';
 import useWindowDimensions from '../../hooks/useWindowDimensions';

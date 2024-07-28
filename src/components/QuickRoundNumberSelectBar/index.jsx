@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import CustomIconButton from '../CustomIconButton';
-import { Grid } from '@mui/material';
 import InfinityIcon from '../InfinityIcon';
 import IncrementingRoundButton from '../IncrementingRoundButton';
 import useWindowDimensions from '../../hooks/useWindowDimensions';

@@ -6,8 +6,7 @@ import "ldrs/ring"
 import IntervalTimer from './pages/Stopwatch'
 import { ring, ping } from 'ldrs'
 import useWindowDimensions from './hooks/useWindowDimensions'
-import { Backdrop, IconButton, Modal, Paper, Typography } from '@mui/material'
-import { grey } from '@mui/material/colors'
+import { IconButton, Modal, Paper, Typography } from '@mui/material'
 import { HelpOutline } from '@mui/icons-material'
 
 ping.register()
