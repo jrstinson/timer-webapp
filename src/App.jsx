@@ -109,7 +109,7 @@ function App() {
     return (
       <Modal open={openHelpModal} onClose={() => { setOpenHelpModal(false) }}>
         <Paper sx={{ bottom: '10vw', right: '10vw', position: 'absolute', textAlign: 'center', padding: '15px', width: '80vw', }}>
-          <Typography variant='h5' style={{ color: theme.palette.primary.text }}>BJJ Round Timer</Typography>
+          <Typography style={{ color: theme.palette.primary.text, fontSize: height > width ? "4vw" : "4vh" }}>BJJ Round Timer</Typography>
           <br></br>
           <Typography style={{ color: theme.palette.primary.text, fontSize: height > width ? "4vw" : "4vh" }}>The first row of numbers represent the length of each round, in minutes.</Typography>
           <br></br>
