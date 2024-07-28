@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import HorizontalRule from "@mui/icons-material/HorizontalRule";
 import CustomIconButton from '../CustomIconButton';
-import { Grid } from "@mui/material";
+import { Grid } from '@mui/material';
 import InfinityIcon from '../InfinityIcon';
 import IncrementingRoundButton from '../IncrementingRoundButton';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 export default function QuickRoundNumberSelectBar({ numberOfRounds, setNumberOfRounds }) {
 
@@ -40,17 +40,19 @@ export default function QuickRoundNumberSelectBar({ numberOfRounds, setNumberOfR
         }
     }
 
+    const { height, width } = useWindowDimensions()
+
+    const portrait = height > width
+
     return (
-        <Grid container spacing={4} alignItems={'center'}>
-            <Grid item>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div>
                 <CustomIconButton onClick={() => handleRoundNumberSelect(1)} color={roundNumberColor} icon={<IncrementingRoundButton selected={selected === 0} numberOfRounds={numberOfRounds > 99 ? 1 : numberOfRounds}>|</IncrementingRoundButton>}></CustomIconButton>
-            </Grid>
-            <Grid item>
-                <HorizontalRule sx={{ transform: 'scale(2)', color: 'primary.accent' }}></HorizontalRule>
-            </Grid>
-            <Grid item>
+
+            </div>
+            <div style={{ display: 'flex' }}>
                 <CustomIconButton onClick={() => handleRoundNumberSelect(999)} color={infiniteRoundColor} icon={<InfinityIcon selected={selected === 1}></InfinityIcon>}></CustomIconButton>
-            </Grid>
-        </Grid>
+            </div>
+        </div>
     )
 }

@@ -1,8 +1,10 @@
 import { Grid } from '@mui/material';
-import HorizontalRule from "@mui/icons-material/HorizontalRule";
 import CustomIconButton from '../CustomIconButton';
 import { useState } from 'react';
 import DigitIcon from '../DigitIcon';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+
+// TODO FIX ME
 
 export default function QuickTimeSelectBar({ timerLength, setTimerLength, timeOptions = [3, 5, 7] }) {
 
@@ -42,23 +44,21 @@ export default function QuickTimeSelectBar({ timerLength, setTimerLength, timeOp
         setTimerLength(time)
     }
 
+    const { height, width } = useWindowDimensions()
+
+    const portrait = height > width
+
     return (
-        <Grid container spacing={4} alignItems={'center'}>
-            <Grid item>
+        <div style={{ display: 'flex', }}>
+            <div>
                 <CustomIconButton onClick={() => handleTimeSelect(60 * timeOptions[0])} color={firstColor} icon={<DigitIcon digit={timeOptions[0]} selected={selected === 0}></DigitIcon>}></CustomIconButton>
-            </Grid>
-            <Grid item>
-                <HorizontalRule sx={{ transform: 'scale(2)', color: 'primary.accent' }}></HorizontalRule>
-            </Grid>
-            <Grid item>
+            </div>
+            <div>
                 <CustomIconButton onClick={() => handleTimeSelect(60 * timeOptions[1])} color={middleColor} icon={<DigitIcon digit={timeOptions[1]} selected={selected === 1}></DigitIcon>}></CustomIconButton>
-            </Grid>
-            <Grid item>
-                <HorizontalRule sx={{ transform: 'scale(2)', color: 'primary.accent' }}></HorizontalRule>
-            </Grid>
-            <Grid item>
+            </div>
+            <div>
                 <CustomIconButton onClick={() => handleTimeSelect(60 * timeOptions[2])} color={endColor} icon={<DigitIcon digit={timeOptions[2]} selected={selected === 2}></DigitIcon>}></CustomIconButton>
-            </Grid>
-        </Grid>
+            </div>
+        </div>
     )
 }
