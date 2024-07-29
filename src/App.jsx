@@ -52,7 +52,7 @@ const theme = createTheme({
 export const turnoverTime = 4500
 
 function App() {
-  const [roundOptions, setRoundOptions] = useState({})
+  const [roundOptions, setRoundOptions] = useState()
   const [clockStarted, setClockStarted] = useState()
   const [flipCoin, setFlipCoin] = useState(false)
   const [loading, setLoading] = useState()
@@ -80,10 +80,10 @@ function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      if (roundOptions.timerLength) {
+      if (roundOptions?.timerLength) {
         setTimerLength(roundOptions.timerLength)
       }
-      if (roundOptions.numberOfRounds) {
+      if (roundOptions?.numberOfRounds) {
         setNumberOfRounds(roundOptions.numberOfRounds)
       }
     }, turnoverTime)
@@ -115,9 +115,10 @@ function App() {
           <br></br>
           <Typography style={{ color: theme.palette.primary.text, fontSize: height > width ? "4vw" : "4vh" }}>The second row of numbers represent the number of rounds. The right icon represents infinite (999) rounds, so the clock will only stop when you stop it. The left icon can be clicked multiple times to increase the desired number of rounds by 1.</Typography>
           <br></br>
-          <Typography style={{ color: theme.palette.primary.text, fontSize: height > width ? "4vw" : "4vh" }}>When you are ready to begin, press "GO!"</Typography>
+          <Typography style={{ color: theme.palette.primary.text, fontSize: height > width ? "4vw" : "4vh" }}>There is a 45 second rest round in between each interval.</Typography>
+          <br></br>
+          <Typography style={{ color: theme.palette.primary.text, fontSize: height > width ? "4vw" : "4vh" }}>When you are ready to begin, press GO!</Typography>
         </Paper>
-
       </Modal>
     )
   }

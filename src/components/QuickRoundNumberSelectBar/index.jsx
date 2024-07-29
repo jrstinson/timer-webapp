@@ -12,7 +12,6 @@ export default function QuickRoundNumberSelectBar({ numberOfRounds, setNumberOfR
 
     const handleRoundNumberSelect = (roundCount) => {
 
-        console.log(roundCount)
         if (roundCount === 1) {
             setRoundNumberColor("primary.main")
             setInfiniteRoundColor("secondary.main")

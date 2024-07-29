@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button, Typography } from '@mui/material';
 import { cardio } from 'ldrs';
 import HeartBeat from '../../components/HeartBeat';
@@ -7,40 +7,50 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 cardio.register();
 
 const IntervalTimer = ({ intervalLength, numIntervals, setClockStarted }) => {
-    const [currentTime, setCurrentTime] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState(intervalLength);
     const [currentInterval, setCurrentInterval] = useState(1);
+    const [isRest, setIsRest] = useState(false);
     const { height, width } = useWindowDimensions()
-    const audio = new Audio('./public/race-start-beeps.mp3')
+    const interval = useRef(null);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeRemaining(prevTime => {
-                if (prevTime === 4) {
-                    audio.play()
-                }
-                return prevTime - 1
-            });
-
+        interval.current = setInterval(() => {
+            setTimeRemaining((prevTime) => prevTime - 1);
         }, 1000);
+        return () => {
+            clearInterval(interval.current);
+        };
+    }, []);
 
-        if (timeRemaining === 0) {
-            clearInterval(timer);
-            console.log(currentInterval, numIntervals)
-            if (currentInterval < numIntervals) {
-                setCurrentInterval(prevInterval => prevInterval + 1);
-                setTimeRemaining(intervalLength);
-                setCurrentTime(0);
+    useEffect(() => {
+
+        if (timeRemaining === 4) {
+            new Audio('/race-start-beeps.mp3').play();
+        }
+        if (timeRemaining === 0 && currentInterval < numIntervals) {
+            if (!isRest) {
+                setIsRest(true);
+                clearInterval(interval.current);
+                setTimeRemaining(45);
+                interval.current = setInterval(() => {
+                    setTimeRemaining((prevTime) => prevTime - 1);
+                }, 1000);
             }
-            if (currentInterval === numIntervals) {
-                setClockStarted(false);
+            else {
+                setIsRest(false);
+                clearInterval(interval.current);
+                setTimeRemaining(intervalLength);
+                setCurrentInterval((prevInterval) => prevInterval + 1);
+                interval.current = setInterval(() => {
+                    setTimeRemaining((prevTime) => prevTime - 1);
+                }, 1000);
             }
         }
-
-        return () => {
-            clearInterval(timer);
-        };
-    }, [currentTime, timeRemaining, currentInterval, numIntervals, intervalLength, setClockStarted]);
+        if (timeRemaining === 0 && currentInterval === numIntervals) {
+            clearInterval(interval.current);
+            setClockStarted(false);
+        }
+    }, [timeRemaining, isRest, currentInterval, numIntervals]);
 
     const formatTime = () => {
         let minutes = Math.floor(timeRemaining / 60);
@@ -64,14 +74,20 @@ const IntervalTimer = ({ intervalLength, numIntervals, setClockStarted }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div>
-                <Typography sx={{ color: 'primary.text' }} fontSize={clockTextSize} fontWeight={'bold'} margin={'auto'} >{formatTime(currentTime)}</Typography>
+                <Typography sx={{ color: 'primary.text' }} fontSize={clockTextSize} fontWeight={'bold'} margin={'auto'} >{formatTime()}</Typography>
             </div>
-            <div style={{ paddingBottom: portrait ? "4vw" : "4vh" }}>
-                <HeartBeat size={heartBeatSize} stroke={heartBeatStroke} timeRemaining={timeRemaining} remainingIntervals={numIntervals - currentInterval} intervalLength={intervalLength} />
-            </div>
-            <div>
-                <Typography sx={{ color: 'primary.text' }} fontSize={roundTextSize}>Round {currentInterval} of {numIntervals}</Typography>
-            </div>
+            {isRest && (<div>
+                <Typography sx={{ color: 'primary.text' }} fontSize={roundTextSize}>Rest</Typography>
+            </div>)}
+            {!isRest &&
+                (<><div style={{ paddingBottom: portrait ? "4vw" : "4vh" }}>
+                    <HeartBeat size={heartBeatSize} stroke={heartBeatStroke} timeRemaining={timeRemaining} remainingIntervals={numIntervals - currentInterval} intervalLength={intervalLength} />
+                </div>
+                    < div >
+                        <Typography sx={{ color: 'primary.text' }} fontSize={roundTextSize}>Round {currentInterval} of {numIntervals}</Typography>
+                    </div></>)
+            }
+
             <div style={{ paddingTop: portrait ? "6vw" : "4vh" }}>
                 <Button sx={{ color: 'primary.text', padding: 0, fontSize: buttonSize }} onClick={() => setClockStarted(false)}>Stop</Button>
             </div>
